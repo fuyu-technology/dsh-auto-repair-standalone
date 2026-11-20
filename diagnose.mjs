@@ -11,8 +11,8 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { execSync, execFileSync } from 'node:child_process'
-import { listeningPortsSync, dshPids, processTable } from './tools/net-listeners.mjs'
+import { execSync } from 'node:child_process'
+import { listeningPortsSync, processTable } from './tools/net-listeners.mjs'
 import { resolveWorkspaceRoot } from './tools/workspace.mjs'
 
 // 工作区根目录：环境变量 AUTO_REPAIR_ROOT → 面板保存的 state/workspace.json → 仓库自身目录。
