@@ -181,6 +181,12 @@ function currentWorkspaceRoot() {
   return snap.validation && snap.validation.ok ? snap.root : ''
 }
 
+/** 每次调 CLI 都按「当前工作区」注入，面板里改完下一次调用立即生效 */
+function childEnv() {
+  const ws = currentWorkspaceRoot()
+  return ws ? { ...process.env, AUTO_REPAIR_ROOT: ws } : process.env
+}
+
 /** 调系统「选择文件夹」对话框（Windows，返回绝对路径） */
 function pickFolderViaShell() {
   return new Promise((resolve) => {
@@ -242,10 +248,7 @@ function runCli(args, timeoutMs = 90000) {
           maxBuffer: 8 * 1024 * 1024,
           encoding: 'utf8',
           // 每次调 CLI 都按「当前工作区」注入，面板里改完立即生效（下一次诊断就走新目录）
-          env: (() => {
-            const ws = currentWorkspaceRoot()
-            return ws ? { ...process.env, AUTO_REPAIR_ROOT: ws } : process.env
-          })()
+          env: childEnv()
         },
         (err, stdout, stderr) => {
           const out = String(stdout || '')
@@ -418,7 +421,7 @@ function runDiagnose(timeoutMs = 25000) {
       execFile(
         findNode(),
         [REPAIR_ENTRY, '--check'],
-        { timeout: timeoutMs, windowsHide: true, maxBuffer: 4 * 1024 * 1024, encoding: 'utf8' },
+        { timeout: timeoutMs, windowsHide: true, maxBuffer: 4 * 1024 * 1024, encoding: 'utf8', env: childEnv() },
         (err, stdout, stderr) => {
           if (err && !stdout) {
             resolve({ ok: false, error: err.message, findings: [] })
@@ -449,7 +452,7 @@ function runRepair(timeoutMs = 60000) {
       execFile(
         findNode(),
         [REPAIR_ENTRY, '--once'],
-        { timeout: timeoutMs, windowsHide: true, maxBuffer: 4 * 1024 * 1024, encoding: 'utf8' },
+        { timeout: timeoutMs, windowsHide: true, maxBuffer: 4 * 1024 * 1024, encoding: 'utf8', env: childEnv() },
         (err, stdout, stderr) => {
           resolve({
             ok: !err,
