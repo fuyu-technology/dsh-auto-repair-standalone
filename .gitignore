@@ -1,0 +1,42 @@
+# 依赖与构建产物
+node_modules/
+*.tsbuildinfo
+
+# 运行期状态与日志（守护进程会持续写，别进仓库）
+state/*
+!state/repair-policy.json
+*.log
+*.pid
+
+# 备份文件
+*.bak
+*.bak-*
+*.orig
+*.vendors-bak-*
+
+# 令牌与凭据——绝对不要提交
+*token*
+*secret*
+*.env
+*.env.*
+credentials.json
+.github-token
+
+# 本地插件源码目录（同一份内容已平铺在仓库根目录，这里只留本地副本）
+dsh-auto-repair-ui/
+
+# 本地运维脚本（保留在磁盘，不入库）
+tools/*
+!tools/net-listeners.mjs
+!tools/workspace.mjs
+
+# 临时文件
+*.tmp
+_tmp*
+tmp/
+
+# 编辑器 / 系统
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

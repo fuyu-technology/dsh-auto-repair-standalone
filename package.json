@@ -1,0 +1,60 @@
+{
+  "name": "dsh-auto-repair-ui",
+  "version": "1.5.0",
+  "description": "DeepSeek Harness 独立版自愈面板：不依赖 SnowLuma / QQ 桥接，只做 DSH 自身的诊断与修复，含工作区选择、审批策略与通知策略。 | DSH standalone self-healing panel — diagnostics and repair for DSH itself, with workspace selection, approval policy and notification policy.",
+  "author": "蝠羽科技",
+  "license": "Apache-2.0",
+  "type": "module",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "self-heal",
+    "auto-repair",
+    "monitor",
+    "batwing-tech"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "LICENSE",
+    "NOTICE",
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "icon.svg",
+    "README.md",
+    "locale/*.json"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": ">=4.0.0-rc <5"
+  },
+  "engines": {
+    "node": "^22.15.0 || >=24.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fuyu-technology/dsh-auto-repair-standalone.git"
+  },
+  "homepage": "https://github.com/fuyu-technology/dsh-auto-repair-standalone#readme",
+  "bugs": {
+    "url": "https://github.com/fuyu-technology/dsh-auto-repair-standalone/issues"
+  }
+}
